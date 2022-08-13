@@ -1,0 +1,1 @@
+# psscript_word_categoryzer
