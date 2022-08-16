@@ -9,7 +9,7 @@ DEBUG = True
 def main(inputfilename, outputfilename):
   contents=get_contents(inputfilename)
   contents=contents.lower()
-  contents=remove_backtick()
+  contents=remove_backtick(contents)
   contents=extract_remove_url(contents)
   wordlist=extract_words(contents)
   wordlist=filter_words_by_length(wordlist)
@@ -26,7 +26,6 @@ def main(inputfilename, outputfilename):
       f.write("%s,%s\n" % (word,wordranking[word]))
 
 
-
 def get_contents(inputfilename):
   if not os.path.exists(inputfilename) or not os.path.isfile(inputfilename):
     print("File not found")
@@ -36,12 +35,12 @@ def get_contents(inputfilename):
   return contents
 
 def remove_backtick(contents):
-  #TODO
-  return contents
+  regex = re.compile(r"`([^0abefnrtuv])")
+  return re.sub(regex,'\\1',contents)
 
 def extract_remove_url(contents):
-  #TODO
-  return contents
+  regex=re.compile("https?://[\w!?/+\-_~;.,&#$%()[\]]+")
+  return re.sub(regex,'',contents)
 
 def extract_words(contents):
   return re.findall("\w+", contents)
